@@ -280,16 +280,20 @@ def build_export(job, proj, overlays, fx_png, opts):
         if fi: a += ',afade=t=in:st=0:d=%.3f' % fi
         if fo: a += ',afade=t=out:st=%.3f:d=%.3f' % (max(0, L - fo), fo)
         af.append(a + ',aresample=48000,adelay=%d|%d,apad[a%d]' % (c['start'] * 1000, c['start'] * 1000, idx)); kind.append('[a%d]' % idx)
-    order = {'V1': 0, 'V2': 1, 'T1': 2}
-    for c in sorted([c for c in clips if c['track'] in order], key=lambda c: (order[c['track']], c['start'])):
+    order = lambda t: {'V1': 0, 'V2': 1}.get(t, 2 + int(t[1:]) / 10 if t[0] == 'T' else None)
+    for c in sorted([c for c in clips if order(c['track']) is not None], key=lambda c: (order(c['track']), c['start'])):
         L = clen(c); sp = max(c.get('speed', 1), .05); fi = min(c.get('fadeIn', 0), L / 2); fo = min(c.get('fadeOut', 0), L / 2)
-        if c['track'] == 'T1':
-            fd = os.path.join(tmp, c['id'])
-            if not os.path.isdir(fd) or not re.match(r'^[a-z0-9]+$', c['id']): continue
-            tf = int(opts.get('textFps', 20))
-            inputs += ['-framerate', str(tf), '-start_number', '0', '-i', os.path.join(fd, 'f%05d.png')]
-            vf.append("[%d:v]scale=%d:%d,format=rgba,fps=%d,setpts=PTS-STARTPTS+%.3f/TB[v%d]" % (n, W, H, fps, c['start'], n))
-            seq.append((n, c['start'], c['start'] + L, True)); n += 1; continue
+        if c['track'][0] == 'T':
+            fd = os.path.join(tmp, c['id']); mf = os.path.join(fd, 'manifest.json')
+            if not re.match(r'^[a-z0-9]+$', c['id']) or not os.path.exists(mf): continue
+            man = json.load(open(mf)); durs = man['durs']
+            if not durs: continue
+            lines = []
+            for i, dd in enumerate(durs): lines += ["file 'f%05d.png'" % i, 'duration %.5f' % dd]
+            lines.append("file 'f%05d.png'" % (len(durs) - 1)); open(os.path.join(fd, 'list.txt'), 'w').write('\n'.join(lines) + '\n')
+            inputs += ['-f', 'concat', '-safe', '0', '-i', os.path.join(fd, 'list.txt')]
+            vf.append("[%d:v]format=rgba,fps=%d,setpts=PTS-STARTPTS+%.3f/TB[v%d]" % (n, fps, c['start'], n))
+            seq.append((n, c['start'], c['start'] + L, True, int(man['box'][0]), int(man['box'][1]))); n += 1; continue
         m = next((m for m in media if m['id'] == c.get('media')), None)
         if not m: continue
         src = os.path.join(D_MEDIA, m['file'])
@@ -311,7 +315,7 @@ def build_export(job, proj, overlays, fx_png, opts):
         lf = lut_file(c.get('lut')) if c.get('lut') else None
         if lf: vf.append(pre + '[p%d]' % n); vf += lut_stmts('[p%d]' % n, '[q%d]' % n, lf, float(c.get('lutAmt', 1)), 'k%d' % n); vf.append('[q%d]%s[v%d]' % (n, post, n))
         else: vf.append('%s,%s[v%d]' % (pre, post, n))
-        seq.append((n, c['start'], c['start'] + L, False)); n += 1
+        seq.append((n, c['start'], c['start'] + L, False, 0, 0)); n += 1
     for c in [c for c in clips if c['track'] in ('A1', 'A2', 'A3')]:
         m = next((m for m in media if m['id'] == c.get('media')), None)
         if not m or not m['hasAudio']: continue
@@ -324,9 +328,9 @@ def build_export(job, proj, overlays, fx_png, opts):
         nonlocal cur, graded, k
         graded = True
         if gl: vf.extend(lut_stmts(cur, '[gr]', gl, float(fx.get('lutAmt', .7)), 'gg')); cur = '[gr]'
-    for (idx, s, e, is_text) in seq:
+    for (idx, s, e, is_text, ox, oy) in seq:
         if is_text and not graded: do_grade()
-        vf.append("%s[v%d]overlay=eof_action=pass:enable='between(t,%.3f,%.3f)'[o%d]" % (cur, idx, s, e, k)); cur = '[o%d]' % k; k += 1
+        vf.append("%s[v%d]overlay=x=%d:y=%d:eof_action=pass:enable='between(t,%.3f,%.3f)'[o%d]" % (cur, idx, ox, oy, s, e, k)); cur = '[o%d]' % k; k += 1
     if not graded: do_grade()
     if fx_png:
         p = os.path.join(tmp, 'fx.png'); dec(fx_png, p); inputs += ['-loop', '1', '-framerate', str(fps), '-t', '%.3f' % D, '-i', p]
@@ -376,6 +380,12 @@ def frames(job, cid):
         m = re.search(r'(\d+)', f.filename or '')
         if m: f.save(os.path.join(d, 'f%05d.png' % int(m.group(1))))
     return jsonify(ok=True)
+
+@app.route('/api/frames/<job>/<cid>/manifest', methods=['POST'])
+def frames_manifest(job, cid):
+    if not (re.match(r'^[a-z0-9]+$', job) and re.match(r'^[a-z0-9]+$', cid)): abort(400)
+    d = os.path.join(D_TMP, job, cid); os.makedirs(d, exist_ok=True)
+    json.dump(request.get_json(force=True), open(os.path.join(d, 'manifest.json'), 'w')); return jsonify(ok=True)
 
 @app.route('/api/export', methods=['POST'])
 def export():

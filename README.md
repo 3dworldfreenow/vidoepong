@@ -16,6 +16,7 @@ Then open http://127.0.0.1:5000 in Chrome or Edge.
 - **S** split · **Delete** remove · **Shift+Delete** ripple delete · **Space** play · **Ctrl+Z** undo · **+/-** zoom
 - **Remove silences**: select a talking clip, it cuts out the quiet gaps automatically.
 - **+ Add text**: cinematic title, lower third, chapter card, subtitle or route tracker on the Text track.
+- **Corner widgets** (+ Add text -> "Corner widgets"): money spent, KM travelled, speed or any number stays in a corner of the screen and changes when you say. Select it, move the playhead to the moment, type the amount and note (e.g. 150 Petrol) and press **Add to total** - the counter rolls up and a small "+₹150 Petrol" pill appears. Put several in different corners or stack rows.
 - **Travel overlays** (same menu, under "Travel"): **Trip start -> destination** (animated progress, KM done / KM left), **Big KM or money counter**, **Spending list** (items appear one by one, total counts up), **Speedometer**, **Full trip dashboard** (route + KM + speed + spent in one frame), **Location pin** (place, coordinates, day/time). Edit every number and name in the right panel.
 - **Colour** (select a video clip): brightness, contrast, saturation, warm/cool, sharpen, **LUT looks** (9 built in: cinematic teal & orange, warm vlog, golden hour, cool & moody, vivid, faded film, matte, B&W, clean) with a strength slider, and **Auto enhance**.
 - **Your own LUT**: Look panel -> "Load your own .cube LUT" (3D .cube files). Apply it to the whole video or per clip.
