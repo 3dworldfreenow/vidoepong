@@ -16,7 +16,14 @@ Then open http://127.0.0.1:5000 in Chrome or Edge.
 - **S** split · **Delete** remove · **Shift+Delete** ripple delete · **Space** play · **Ctrl+Z** undo · **+/-** zoom
 - **Remove silences**: select a talking clip, it cuts out the quiet gaps automatically.
 - **+ Add text**: cinematic title, lower third, chapter card, subtitle or route tracker on the Text track.
-- **Look** (right panel): letterbox bars, vignette, grain, teal/orange grade, accent colour.
-- **Export MP4**: renders with FFmpeg. Your project autosaves in `data/project.json`.
+- **Colour** (select a video clip): brightness, contrast, saturation, warm/cool, sharpen, **LUT looks** (9 built in: cinematic teal & orange, warm vlog, golden hour, cool & moody, vivid, faded film, matte, B&W, clean) with a strength slider, and **Auto enhance**.
+- **Your own LUT**: Look panel -> "Load your own .cube LUT" (3D .cube files). Apply it to the whole video or per clip.
+- **Look** (right panel): whole-video LUT grade + strength, letterbox bars, vignette, grain, accent colour.
+- **Sound**: volume, fades, mute, **Clean voice** (noise cut, EQ, compressor), and **Auto-lower under my voice** for music (ducking).
+- **Background sound**: left panel -> generate river / wind / rain / forest / cinematic pad (synthetic). Real music: add your own files.
+- **Get audio from a video**: click the ♪ button on a video in the Media list (makes a separate audio file), or select a clip and press **Detach audio** (puts the sound on the Audio track so you can cut / move / replace it).
+- **Replace**: select a clip -> Replace / tools -> swap the picture or the sound for other media, keeping the timing.
+- **D** duplicate · **Q / W** trim start / end to the playhead.
+- **Export MP4**: renders with FFmpeg (optional YouTube loudness -14 LUFS). Your project autosaves in `data/project.json`.
 
 Notes: your originals are never changed. Text clips export with a fade in/out (the preview shows the full animation).
