@@ -311,7 +311,7 @@ def build_export(job, proj, overlays, fx_png, opts):
         if lf: vf.append(pre + '[p%d]' % n); vf += lut_stmts('[p%d]' % n, '[q%d]' % n, lf, float(c.get('lutAmt', 1)), 'k%d' % n); vf.append('[q%d]%s[v%d]' % (n, post, n))
         else: vf.append('%s,%s[v%d]' % (pre, post, n))
         seq.append((n, c['start'], c['start'] + L, False)); n += 1
-    for c in [c for c in clips if c['track'] in ('A1', 'A2')]:
+    for c in [c for c in clips if c['track'] in ('A1', 'A2', 'A3')]:
         m = next((m for m in media if m['id'] == c.get('media')), None)
         if not m or not m['hasAudio']: continue
         L = clen(c); sp = max(c.get('speed', 1), .05); fi = min(c.get('fadeIn', 0), L / 2); fo = min(c.get('fadeOut', 0), L / 2)

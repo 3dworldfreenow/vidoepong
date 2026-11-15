@@ -4,7 +4,7 @@
 <style>
 :root{--bg:#0c0e11;--pn:#13171c;--pn2:#171c22;--ln:#252c35;--tx:#e8eaed;--mu:#8b95a1;--ac:#e0b66a;--v:#2f6f8f;--a:#3d8a5f;--t:#9a6b2f}
 *{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--tx);font:13px/1.35 system-ui,'Segoe UI',sans-serif;overflow:hidden;user-select:none}
-#app{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:44px minmax(0,1fr) 306px;height:100%;width:100%}
+#app{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:44px minmax(0,1fr) 352px;height:100%;width:100%}
 #top{display:flex;align-items:center;gap:8px;padding:0 12px;background:var(--pn);border-bottom:1px solid var(--ln)}
 #top h1{font:600 13px Georgia,serif;letter-spacing:.2em;color:var(--ac);margin:0 auto 0 0;text-transform:uppercase}
 button,select,input,textarea{font:inherit}button,select{background:#1b222a;color:var(--tx);border:1px solid #33404d;border-radius:6px;padding:5px 10px;cursor:pointer}
@@ -29,11 +29,11 @@ details{border:1px solid var(--ln);border-radius:8px;margin:8px 0;padding:6px 9p
 #tl{min-width:0;background:var(--pn);border-top:1px solid var(--ln);display:flex;flex-direction:column;min-height:0}
 #tools{display:flex;gap:6px;align-items:center;padding:6px 10px;border-bottom:1px solid var(--ln);flex-wrap:wrap}#tools .sp{flex:1}
 #tlb{display:flex;flex:1;min-height:0}#labels{width:74px;flex:none;border-right:1px solid var(--ln);padding-top:24px}
-.lb{height:54px;border-bottom:1px solid #1d232a;color:var(--mu);font:600 10px system-ui;letter-spacing:.1em;display:flex;align-items:center;padding-left:8px}
+.lb{height:46px;border-bottom:1px solid #1d232a;color:var(--mu);font:600 10px system-ui;letter-spacing:.1em;display:flex;align-items:center;padding-left:8px}
 #scroll{flex:1;min-width:0;overflow:auto;position:relative}#inner{position:relative}
 #ruler{height:24px;position:sticky;top:0;z-index:5;background:#10141a;border-bottom:1px solid var(--ln);cursor:pointer}
-.row{height:54px;border-bottom:1px solid #1d232a;position:relative;background:repeating-linear-gradient(90deg,transparent 0 79px,#161b21 79px 80px)}.row.alt{background-color:#10141a}
-.clip{position:absolute;top:4px;height:46px;border-radius:6px;overflow:hidden;cursor:grab;border:1.5px solid rgba(255,255,255,.18);font-size:11px}
+.row{height:46px;border-bottom:1px solid #1d232a;position:relative;background:repeating-linear-gradient(90deg,transparent 0 79px,#161b21 79px 80px)}.row.alt{background-color:#10141a}
+.clip{position:absolute;top:4px;height:38px;border-radius:6px;overflow:hidden;cursor:grab;border:1.5px solid rgba(255,255,255,.18);font-size:11px}
 .clip.V{background:linear-gradient(#2f6f8f,#265a75)}.clip.A{background:linear-gradient(#3d8a5f,#2f6e4b)}.clip.T{background:linear-gradient(#9a6b2f,#7d5524)}
 .clip.sel{border-color:#fff;box-shadow:0 0 0 2px var(--ac)}.clip .lbl{position:absolute;left:8px;top:3px;right:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 2px #000;z-index:2;pointer-events:none}
 .clip canvas{position:absolute;left:0;bottom:0;width:100%;height:100%;pointer-events:none}.clip .bg{position:absolute;inset:0;background-size:auto 100%;background-repeat:repeat-x;opacity:.45;pointer-events:none}
@@ -49,7 +49,7 @@ details{border:1px solid var(--ln);border-radius:8px;margin:8px 0;padding:6px 9p
 <div id="top"><h1>Vlog Editor</h1><span id="sv" style="color:var(--mu)"></span>
 <button id="undo">↶ Undo</button><button id="redo">↷ Redo</button><button id="savep">Save project file</button><button id="openp">Open project file</button><input type="file" id="pf" accept=".json" hidden><button id="exp" class="pri">Export MP4</button></div>
 <div id="mid">
-<div id="bin"><h3>Media</h3><div id="drop">Drop videos, photos, music here<br><u>or click to browse</u></div><input type="file" id="fi" multiple accept="video/*,audio/*,image/*" hidden><div id="mlist"></div><h3>Background sound</h3><div class="g2"><select id="ambK"><option value="river">River stream</option><option value="wind">Soft wind</option><option value="rain">Rain</option><option value="forest">Forest air</option><option value="pad">Cinematic pad</option></select><select id="ambS"><option value="30">30 sec</option><option value="60" selected>1 min</option><option value="180">3 min</option><option value="600">10 min</option></select></div><button id="ambG" style="width:100%;margin-top:6px">Make sound</button><button id="bgUp" class="pri" style="width:100%;margin-top:8px">+ Add my own background sound</button><input type="file" id="bgf" accept="audio/*,video/*" multiple hidden><label style="display:flex;gap:6px;align-items:center;color:var(--tx);font-size:12px;margin-top:6px"><input type="checkbox" id="bgLoop" checked> Repeat to fill the whole video</label><p style="color:var(--mu);font-size:11px;margin:6px 0 0">These are generated sounds. For real music, drop your own files above (YouTube Audio Library, Pixabay).</p></div>
+<div id="bin"><h3>Media</h3><div id="drop">Drop videos, photos, music here<br><u>or click to browse</u></div><input type="file" id="fi" multiple accept="video/*,audio/*,image/*" hidden><div id="mlist"></div><h3>Background sound</h3><div class="g2"><select id="ambK"><option value="river">River stream</option><option value="wind">Soft wind</option><option value="rain">Rain</option><option value="forest">Forest air</option><option value="pad">Cinematic pad</option></select><select id="ambS"><option value="30">30 sec</option><option value="60" selected>1 min</option><option value="180">3 min</option><option value="600">10 min</option></select></div><button id="ambG" style="width:100%;margin-top:6px">Make sound</button><button id="bgUp" class="pri" style="width:100%;margin-top:8px">+ Add my own background sound</button><input type="file" id="bgf" accept="audio/*,video/*" multiple hidden><label style="display:block;color:var(--mu);font-size:11px;margin:8px 0 3px">WHERE TO PLAY IT</label><select id="bgWhere" style="width:100%"><option value="all">Whole video</option><option value="sel">Only under the selected clip</option><option value="ph">From the playhead for…</option></select><div id="bgLenW" style="display:none;margin-top:6px"><input type="number" id="bgLen" value="20" min="2" step="1" style="width:70px;background:#0d1115;color:var(--tx);border:1px solid #2b3540;border-radius:6px;padding:4px 6px"> seconds</div><label style="display:flex;gap:6px;align-items:center;color:var(--tx);font-size:12px;margin-top:6px"><input type="checkbox" id="bgLoop" checked> Repeat if the sound is shorter</label><p style="color:var(--mu);font-size:11px;margin:6px 0 0">Tip: you can also drag any audio from the list straight onto an Audio track at the exact spot you want.</p><p style="color:var(--mu);font-size:11px;margin:6px 0 0">These are generated sounds. For real music, drop your own files above (YouTube Audio Library, Pixabay).</p></div>
 <div id="stage"><div id="pvw"><canvas id="cv" width="1920" height="1080"></canvas></div>
 <div id="tr"><button id="tostart">⏮</button><button id="pl" style="min-width:90px">▶ Play</button><span id="tc">0:00.0</span></div></div>
 <div id="insp"></div></div>
@@ -65,7 +65,8 @@ details{border:1px solid var(--ln);border-radius:8px;margin:8px 0;padding:6px 9p
 const $=id=>document.getElementById(id),cv=$('cv'),ctx=cv.getContext('2d'),W=1920,H=1080;
 const clamp=(v,a,b)=>v<a?a:v>b?b:v,lerp=(a,b,k)=>a+(b-a)*k,ease=x=>{x=clamp(x,0,1);return x*x*(3-2*x)},eo=x=>1-Math.pow(1-clamp(x,0,1),3);
 const uid=()=>Math.random().toString(36).slice(2,10);
-const TRACKS=[['T1','TEXT','T'],['V2','VIDEO 2','V'],['V1','VIDEO 1','V'],['A1','AUDIO 1','A'],['A2','AUDIO 2','A']];
+const TRACKS=[['T1','TEXT','T'],['V2','VIDEO 2','V'],['V1','VIDEO 1','V'],['A1','AUDIO 1','A'],['A2','AUDIO 2','A'],['A3','AUDIO 3','A']];
+const isAud=t=>t&&t[0]==='A';
 const defFx=()=>({accent:'#e0b66a',font:'serif',bars:true,ratio:2.39,tag:'',vignette:true,grain:true,flare:true,lut:'cinematic',lutAmt:.7});
 let P={clips:[],fx:defFx()},M=[],PK={},sel=null,T=0,playing=false,pps=80,undoS=[],redoS=[];
 const clen=c=>Math.max(.04,(c.out-c.in)/Math.max(c.speed||1,.05)),cend=c=>c.start+clen(c);
@@ -85,17 +86,22 @@ function bin(){const L=$('mlist');L.innerHTML='';M.forEach(m=>{const e=document.
   const th=m.thumb?'<img src="/file/thumb/'+m.thumb+'">':'<div class="ph">'+(m.kind==='audio'?'🎵':'🎞')+'</div>';
   e.innerHTML=th+'<div class="nm"><b title="'+m.name+'">'+m.name+'</b><small>'+m.kind+' · '+fmt(m.dur)+(m.status==='processing'?'<span class="badge">preparing…</span>':m.status==='error'?'<span class="badge err">preview failed</span>':'')+'</small></div><button title="Add at playhead (Shift = video 2)">+</button>'+(m.kind==='video'&&m.hasAudio?'<button title="Get the sound out of this video as a separate audio file">♪</button>':'')+(m.kind==='audio'?'<button title="Use as background sound (fills the video)">BG</button>':'')+'<button title="Remove from library">×</button>';
   const bs=e.querySelectorAll('button');bs[0].onclick=ev=>addMedia(m,ev.shiftKey);const xb=m.kind==='video'&&m.hasAudio?bs[1]:null;if(xb)xb.onclick=()=>{xb.textContent='…';fetch('/api/extract/'+m.id,{method:'POST'}).then(r=>r.json()).then(d=>{if(d.error)toast(d.error);loadMedia();});};if(m.kind==='audio')bs[1].onclick=()=>addBgSound(m);bs[bs.length-1].onclick=()=>{if(P.clips.some(c=>c.media===m.id)){toast('This media is used on the timeline. Delete those clips first.');return;}fetch('/api/media/'+m.id,{method:'DELETE'}).then(loadMedia);};
-  e.ondblclick=()=>addMedia(m,false);L.appendChild(e);});}
+  e.ondblclick=()=>addMedia(m,false);e.draggable=true;e.ondragstart=ev=>{ev.dataTransfer.setData('text/mid',m.id);ev.dataTransfer.effectAllowed='copy';};L.appendChild(e);});}
 function upload(files,bg){if(!files||!files.length)return;const fd=new FormData();[...files].forEach(f=>fd.append('files',f));$('drop').innerHTML='Uploading… keep this tab open';
   fetch('/api/upload',{method:'POST',body:fd}).then(r=>r.json()).then(list=>{$('drop').innerHTML='Drop videos, photos, music here<br><u>or click to browse</u>';loadMedia().then(()=>{if(bg)list.filter(x=>x.kind==='audio').forEach(x=>{const m=mget(x.id);if(m)addBgSound(m);});if(bg&&!list.some(x=>x.kind==='audio'))toast('That file has no sound.');});}).catch(()=>{toast('Upload failed');});}
 $('drop').onclick=()=>$('fi').click();$('fi').onchange=e=>{upload(e.target.files);e.target.value='';};
 $('drop').ondragover=e=>{e.preventDefault();$('drop').classList.add('over');};$('drop').ondragleave=()=>$('drop').classList.remove('over');$('drop').ondrop=e=>{e.preventDefault();$('drop').classList.remove('over');upload(e.dataTransfer.files);};
-function addBgSound(m){snap();const vEnd=P.clips.filter(c=>c.track!=='A1'&&c.track!=='A2').reduce((x,c)=>Math.max(x,cend(c)),0)||m.dur,loop=$('bgLoop').checked,total=loop?vEnd:Math.min(m.dur,vEnd||m.dur);
-  const busy=tr=>P.clips.some(c=>c.track===tr&&c.start<total&&cend(c)>0);const tr=!busy('A1')?'A1':'A2';let st=0,first=null,last=null;
-  while(st<total-.05){const len=Math.min(m.dur,total-st),c={id:uid(),track:tr,media:m.id,start:st,in:0,out:len,speed:1,vol:.5,fadeIn:0,fadeOut:0,mute:false,duck:true};P.clips.push(c);first=first||c;last=c;st+=len;if(!loop)break;}
-  if(first){first.fadeIn=Math.min(1.5,first.out/2);last.fadeOut=Math.min(2,last.out/2);sel=first.id;}all();toast('Background sound added on '+(tr==='A1'?'Audio 1':'Audio 2')+(loop&&m.dur<vEnd?' (repeated to fill the video)':'')+'. Change its volume in the right panel.');}
+function freeAudioTrack(a,b){return ['A1','A2','A3'].find(tr=>!P.clips.some(c=>c.track===tr&&c.start<b-.01&&cend(c)>a+.01))||'A3';}
+function addBgSound(m,opt){opt=opt||{};const where=opt.where||$('bgWhere').value;snap();const vEnd=P.clips.filter(c=>!isAud(c.track)).reduce((x,c)=>Math.max(x,cend(c)),0)||m.dur;let a=0,b=vEnd;
+  if(where==='sel'){const c=selClip();if(c){a=c.start;b=cend(c);}else toast('Select a clip first. Using the whole video instead.');}
+  else if(where==='ph'){a=T;b=T+Math.max(2,+$('bgLen').value||20);}
+  const loop=$('bgLoop').checked,total=b-a,tr=freeAudioTrack(a,b);let st=0,first=null,last=null;
+  while(st<total-.05){const len=Math.min(m.dur,total-st),c={id:uid(),track:tr,media:m.id,start:a+st,in:0,out:len,speed:1,vol:.5,fadeIn:0,fadeOut:0,mute:false,duck:true};P.clips.push(c);first=first||c;last=c;st+=len;if(!loop)break;}
+  if(first){first.fadeIn=Math.min(1.5,first.out/2);last.fadeOut=Math.min(2,last.out/2);sel=first.id;}all();toast('Background sound added on Audio '+tr[1]+' from '+fmt(a)+' to '+fmt(Math.min(b,a+(loop?total:Math.min(m.dur,total))))+'. Drag it or its edges to adjust.');}
+function dropMedia(m,track,start){const tk=TRACKS.find(t=>t[0]===track);if(!tk)return;const isA=m.kind==='audio';if((tk[2]==='A')!==isA||tk[2]==='T')return toast(isA?'Drop sounds on an Audio track.':'Drop videos and photos on a Video track.');
+  snap();const len=m.kind==='image'?5:m.dur,c={id:uid(),track,media:m.id,start:Math.max(0,start),in:0,out:len,speed:1,vol:isA?.6:1,fadeIn:isA?1:0,fadeOut:isA?1.5:0,mute:false,fit:'contain',duck:isA};P.clips.push(c);sel=c.id;all();}
 function freeStart(track,start,len){const cl=P.clips.filter(c=>c.track===track);if(!cl.some(c=>start<cend(c)-.001&&start+len>c.start+.001))return start;return cl.reduce((m,c)=>Math.max(m,cend(c)),0);}
-function addMedia(m,v2){snap();const track=m.kind==='audio'?'A1':(v2?'V2':'V1'),len=m.kind==='image'?5:m.dur;
+function addMedia(m,v2){snap();const track=m.kind==='audio'?freeAudioTrack(T,T+m.dur):(v2?'V2':'V1'),len=m.kind==='image'?5:m.dur;
   const c={id:uid(),track,media:m.id,start:freeStart(track,T,len),in:0,out:len,speed:1,vol:m.kind==='audio'?.6:1,fadeIn:m.kind==='audio'?1:0,fadeOut:m.kind==='audio'?1.5:0,mute:false,fit:'contain',duck:m.kind==='audio'};P.clips.push(c);sel=c.id;all();}
 // ---------------- cinematic text (same look as the overlay studio) ----------------
 const SERIF='"Cormorant Garamond","Playfair Display",Georgia,"Times New Roman","Noto Serif Devanagari","Noto Sans Devanagari",serif',SANS='Montserrat,Inter,"Segoe UI","Noto Sans Devanagari","DejaVu Sans",sans-serif';
@@ -168,7 +174,7 @@ const fadeF=c=>{const L=clen(c);let f=1;if(c.fadeIn>0)f=Math.min(f,(T-c.start)/c
 function syncMedia(){const act=new Set();const vo=P.clips.some(c=>(c.track==='V1'||c.track==='V2')&&!c.mute&&T>=c.start&&T<cend(c)&&(mget(c.media)||{}).hasAudio&&(mget(c.media)||{}).kind==='video');duckF+=((vo?.3:1)-duckF)*.12;P.clips.forEach(c=>{if(c.track==='T1')return;const on=T>=c.start&&T<cend(c);const m=mget(c.media);if(!m)return;
   if(!on){const e=EL[c.id];if(e&&e.el.pause&&!e.el.paused)e.el.pause();return;}
   act.add(c.id);const el=elFor(c);if(!el||m.kind==='image')return;const target=c.in+(T-c.start)*(c.speed||1);
-  el.volume=clamp((c.mute?0:(c.vol==null?1:c.vol))*fadeF(c)*((c.track==='A1'||c.track==='A2')&&c.duck?duckF:1),0,1);if(c.track==='V1'||c.track==='V2'){el.muted=!!c.mute||!m.hasAudio;}
+  el.volume=clamp((c.mute?0:(c.vol==null?1:c.vol))*fadeF(c)*(isAud(c.track)&&c.duck?duckF:1),0,1);if(c.track==='V1'||c.track==='V2'){el.muted=!!c.mute||!m.hasAudio;}
   if(!playing){if(el.pause&&!el.paused)el.pause();if(Math.abs(el.currentTime-target)>.04&&el.readyState>0)el.currentTime=target;}
   else{el.playbackRate=clamp(c.speed||1,.0625,16);if(el.paused)el.play().catch(()=>{});if(Math.abs(el.currentTime-target)>.35)el.currentTime=target;}});}
 function drawClip(c,el,iw,ih){const z=Math.max(1,c.zoom||1),s=(c.fit==='cover'?Math.max(W/iw,H/ih):Math.min(W/iw,H/ih))*z,dw=iw*s,dh=ih*s;let dx=(W-dw)/2+(z>1?(c.panX||0)*W:0),dy=(H-dh)/2+(z>1?(c.panY||0)*H:0);
@@ -200,6 +206,7 @@ function tl(){const rows=$('rows'),lab=$('labels');rows.innerHTML='';lab.innerHT
       let html='';if(m&&m.thumb&&k==='V')html+='<div class="bg" style="background-image:url(/file/thumb/'+m.thumb+')"></div>';
       html+='<canvas></canvas><div class="lbl">'+label+'</div><div class="h l"></div><div class="h r"></div>';e.innerHTML=html;r.appendChild(e);
       if(m&&m.hasAudio&&(k==='A'||k==='V'))wave(e.querySelector('canvas'),c,m);bindClip(e,c);});
+    r.ondragover=ev=>{ev.preventDefault();ev.dataTransfer.dropEffect='copy';};r.ondrop=ev=>{ev.preventDefault();const id=ev.dataTransfer.getData('text/mid');const m=mget(id);if(!m)return;dropMedia(m,r.dataset.track,(ev.clientX-r.getBoundingClientRect().left)/pps);};
     r.onpointerdown=ev=>{if(ev.target===r){sel=null;insp();tlSel();}};});
   tlSel();}
 function tlSel(){document.querySelectorAll('.clip').forEach(e=>e.classList.toggle('sel',e.dataset.id===sel));}
@@ -240,7 +247,7 @@ function num(label,key,c,step,min,max){return '<div><label>'+label+'</label><inp
 function rg(label,key,c,min,max,step,def){const v=c[key]==null?def:c[key];return '<label>'+label+' <span style="color:var(--ac)">'+(+v).toFixed(2)+'</span></label><input type="range" data-k="'+key+'" min="'+min+'" max="'+max+'" step="'+step+'" value="'+v+'" style="width:100%">';}
 function lutOpts(cur,none){return '<option value="">'+none+'</option>'+LUTS.list.map(l=>'<option value="'+l.id+'"'+(l.id===cur?' selected':'')+'>'+esc(l.label)+'</option>').join('');}
 function insp(){const E=$('insp'),c=selClip(),G=P.fx;let h='';
-  if(c){const m=mget(c.media),isT=c.track==='T1',isV=c.track==='V1'||c.track==='V2',isA=c.track==='A1'||c.track==='A2';h+='<h3>'+(isT?'Text clip':m?esc(m.name):'Clip')+'</h3>';
+  if(c){const m=mget(c.media),isT=c.track==='T1',isV=c.track==='V1'||c.track==='V2',isA=isAud(c.track);h+='<h3>'+(isT?'Text clip':m?esc(m.name):'Clip')+'</h3>';
     if(isT){const L=c.text;h+='<label>Style</label><select data-t="type">'+['title','lower','chapter','sub','tracker'].map(v=>'<option'+(v===L.type?' selected':'')+'>'+v+'</option>').join('')+'</select>'+
       '<label>'+(L.type==='tracker'?'Stops (use | between)':'Main text')+'</label><input type="text" data-t="a" value="'+esc(L.a)+'"><label>'+(L.type==='tracker'?'Active stop number':'Second line')+'</label><input type="text" data-t="b" value="'+esc(L.b)+'"><label>Small tag line</label><input type="text" data-t="c" value="'+esc(L.c)+'">'+
       '<div class="g2">'+num('Start (s)','start',c,.1,0)+num('Length (s)','out',c,.5,2)+'</div>';}
@@ -274,16 +281,17 @@ function insp(){const E=$('insp'),c=selClip(),G=P.fx;let h='';
   if(B('b_auto'))B('b_auto').onclick=()=>{const b=B('b_auto');b.textContent='Analysing…';const m=mget(c.media);fetch('/api/analyze/'+m.id+'?t='+(m.kind==='image'?0:c.in)+'&d='+Math.min(8,c.out-c.in)).then(r=>r.json()).then(d=>{if(d.error){toast(d.error);b.textContent='✨ Auto enhance';return;}snap();Object.assign(c,d.adj);insp();save();toast('Auto-enhanced: brightness '+d.adj.brightness+', contrast '+d.adj.contrast+', saturation '+d.adj.saturation+'. Fine-tune with the sliders.');}).catch(()=>{b.textContent='✨ Auto enhance';toast('Could not analyse this clip.');});};
   if(B('b_det'))B('b_det').onclick=detach;
   if(B('b_rep'))B('b_rep').onchange=e=>{const m=mget(e.target.value);if(!m)return;snap();const len=clen(c)*(c.speed||1);c.media=m.id;c.in=0;c.out=m.kind==='image'?Math.max(len,2):Math.min(m.dur,len);delete EL[c.id];all();};
-  if(B('b_rsnd'))B('b_rsnd').onchange=e=>{const m=mget(e.target.value);if(!m)return;snap();c.mute=true;const tr=P.clips.some(k=>k.track==='A1'&&k.start<cend(c)&&cend(k)>c.start)?'A2':'A1';
+  if(B('b_rsnd'))B('b_rsnd').onchange=e=>{const m=mget(e.target.value);if(!m)return;snap();c.mute=true;const tr=freeAudioTrack(c.start,cend(c));
     P.clips.push({id:uid(),track:tr,media:m.id,start:c.start,in:0,out:Math.min(m.dur,clen(c)),speed:1,vol:1,fadeIn:.3,fadeOut:.5,duck:false});all();};
   if(B('b_lut'))B('b_lut').onclick=()=>B('lutf').click();
   if(B('lutf'))B('lutf').onchange=e=>{const f=e.target.files[0];if(!f)return;const fd=new FormData();fd.append('file',f);fetch('/api/lut',{method:'POST',body:fd}).then(r=>r.json()).then(d=>{if(d.error){toast(d.error);return;}LUTS.list.push(d);snap();P.fx.lut=d.id;if(!P.fx.lutAmt)P.fx.lutAmt=.8;insp();save();});};}
 function detach(){const c=selClip();const m=c&&mget(c.media);if(!c||!m||!m.hasAudio||m.kind!=='video'||c.mute)return toast('Select a video clip that still has its own sound.');snap();
-  const tr=P.clips.some(k=>k.track==='A1'&&k.start<cend(c)-.01&&cend(k)>c.start+.01)?'A2':'A1';const a=JSON.parse(JSON.stringify(c));a.id=uid();a.track=tr;a.mute=false;a.duck=false;delete a.lut;delete a.zoom;P.clips.push(a);c.mute=true;sel=a.id;all();toast('Sound is now on '+(tr==='A1'?'Audio 1':'Audio 2')+'. You can cut, move, replace or delete it separately.');}
+  const tr=freeAudioTrack(c.start,cend(c));const a=JSON.parse(JSON.stringify(c));a.id=uid();a.track=tr;a.mute=false;a.duck=false;delete a.lut;delete a.zoom;P.clips.push(a);c.mute=true;sel=a.id;all();toast('Sound is now on Audio '+tr[1]+'. You can cut, move, replace or delete it separately.');}
 function dupClip(){const c=selClip();if(!c)return;snap();const b=JSON.parse(JSON.stringify(c));b.id=uid();b.start=cend(c);P.clips.push(b);sel=b.id;all();}
 function trimTo(side){const c=selClip();if(!c||T<=c.start+.05||T>=cend(c)-.05)return toast('Select a clip and put the playhead inside it.');snap();const sp=c.speed||1;
   if(side==='l'){const d=T-c.start;if(c.track==='T1')c.out-=d;else c.in+=d*sp;c.start=T;}else{if(c.track==='T1')c.out=T-c.start;else c.out=c.in+(T-c.start)*sp;}all();}
 $('dup').onclick=dupClip;$('trl').onclick=()=>trimTo('l');$('trr').onclick=()=>trimTo('r');$('det').onclick=detach;
+$('bgWhere').onchange=()=>{$('bgLenW').style.display=$('bgWhere').value==='ph'?'block':'none';};
 $('bgUp').onclick=()=>$('bgf').click();$('bgf').onchange=e=>{upload(e.target.files,true);e.target.value='';};
 $('ambG').onclick=()=>{const b=$('ambG');b.textContent='Making sound…';b.disabled=true;fetch('/api/ambience',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({kind:$('ambK').value,seconds:+$('ambS').value})}).then(r=>r.json()).then(d=>{b.textContent='Make sound';b.disabled=false;if(d.error){toast(d.error);return;}loadMedia().then(()=>{const m=mget(d.id);if(m)addBgSound(m);});}).catch(()=>{b.textContent='Make sound';b.disabled=false;toast('Could not make the sound.');});};
 // ---------------- keyboard & top bar ----------------
