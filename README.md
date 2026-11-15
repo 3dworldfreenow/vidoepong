@@ -16,6 +16,7 @@ Then open http://127.0.0.1:5000 in Chrome or Edge.
 - **S** split · **Delete** remove · **Shift+Delete** ripple delete · **Space** play · **Ctrl+Z** undo · **+/-** zoom
 - **Remove silences**: select a talking clip, it cuts out the quiet gaps automatically.
 - **+ Add text**: cinematic title, lower third, chapter card, subtitle or route tracker on the Text track.
+- **Travel overlays** (same menu, under "Travel"): **Trip start -> destination** (animated progress, KM done / KM left), **Big KM or money counter**, **Spending list** (items appear one by one, total counts up), **Speedometer**, **Full trip dashboard** (route + KM + speed + spent in one frame), **Location pin** (place, coordinates, day/time). Edit every number and name in the right panel.
 - **Colour** (select a video clip): brightness, contrast, saturation, warm/cool, sharpen, **LUT looks** (9 built in: cinematic teal & orange, warm vlog, golden hour, cool & moody, vivid, faded film, matte, B&W, clean) with a strength slider, and **Auto enhance**.
 - **Your own LUT**: Look panel -> "Load your own .cube LUT" (3D .cube files). Apply it to the whole video or per clip.
 - **Look** (right panel): whole-video LUT grade + strength, letterbox bars, vignette, grain, accent colour.
@@ -26,4 +27,4 @@ Then open http://127.0.0.1:5000 in Chrome or Edge.
 - **D** duplicate · **Q / W** trim start / end to the playhead.
 - **Export MP4**: renders with FFmpeg (optional YouTube loudness -14 LUFS). Your project autosaves in `data/project.json`.
 
-Notes: your originals are never changed. Text clips export with a fade in/out (the preview shows the full animation).
+Notes: your originals are never changed. Animated text and trip overlays are rendered frame by frame into the exported video, so the export matches the preview (this takes a little longer for long overlays).

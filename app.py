@@ -284,10 +284,11 @@ def build_export(job, proj, overlays, fx_png, opts):
     for c in sorted([c for c in clips if c['track'] in order], key=lambda c: (order[c['track']], c['start'])):
         L = clen(c); sp = max(c.get('speed', 1), .05); fi = min(c.get('fadeIn', 0), L / 2); fo = min(c.get('fadeOut', 0), L / 2)
         if c['track'] == 'T1':
-            if c['id'] not in overlays: continue
-            png = os.path.join(tmp, c['id'] + '.png'); dec(overlays[c['id']], png)
-            inputs += ['-loop', '1', '-framerate', str(fps), '-t', '%.3f' % L, '-i', png]
-            vf.append("[%d:v]scale=%d:%d,format=rgba,fade=t=in:st=0:d=0.9:alpha=1,fade=t=out:st=%.3f:d=0.9:alpha=1,setpts=PTS-STARTPTS+%.3f/TB[v%d]" % (n, W, H, max(0, L - .9), c['start'], n))
+            fd = os.path.join(tmp, c['id'])
+            if not os.path.isdir(fd) or not re.match(r'^[a-z0-9]+$', c['id']): continue
+            tf = int(opts.get('textFps', 20))
+            inputs += ['-framerate', str(tf), '-start_number', '0', '-i', os.path.join(fd, 'f%05d.png')]
+            vf.append("[%d:v]scale=%d:%d,format=rgba,fps=%d,setpts=PTS-STARTPTS+%.3f/TB[v%d]" % (n, W, H, fps, c['start'], n))
             seq.append((n, c['start'], c['start'] + L, True)); n += 1; continue
         m = next((m for m in media if m['id'] == c.get('media')), None)
         if not m: continue
@@ -363,11 +364,26 @@ def build_export(job, proj, overlays, fx_png, opts):
     else: JOBS[job].update(state='error', error=''.join(tail_l))
     shutil.rmtree(tmp, ignore_errors=True)
 
+@app.route('/api/export/begin', methods=['POST'])
+def export_begin():
+    job = uuid.uuid4().hex[:8]; os.makedirs(os.path.join(D_TMP, job), exist_ok=True); return jsonify(job=job)
+
+@app.route('/api/frames/<job>/<cid>', methods=['POST'])
+def frames(job, cid):
+    if not (re.match(r'^[a-z0-9]+$', job) and re.match(r'^[a-z0-9]+$', cid)): abort(400)
+    d = os.path.join(D_TMP, job, cid); os.makedirs(d, exist_ok=True)
+    for f in request.files.getlist('f'):
+        m = re.search(r'(\d+)', f.filename or '')
+        if m: f.save(os.path.join(d, 'f%05d.png' % int(m.group(1))))
+    return jsonify(ok=True)
+
 @app.route('/api/export', methods=['POST'])
 def export():
     body = request.get_json(force=True); proj = body['project']
     if not proj.get('clips'): return jsonify(error='Timeline is empty'), 400
-    job = uuid.uuid4().hex[:8]; JOBS[job] = dict(state='running', progress=0)
+    job = body.get('job') or uuid.uuid4().hex[:8]
+    if not re.match(r'^[a-z0-9]+$', job): abort(400)
+    JOBS[job] = dict(state='running', progress=0)
     def go():
         try: build_export(job, proj, body.get('overlays', {}), body.get('fx'), body.get('opts', {}))
         except Exception as e: JOBS[job].update(state='error', error=repr(e))
